@@ -8,6 +8,6 @@ import com.google.gson.JsonObject
 interface Command: ContextGuarded {
 
     val key: String
-    fun process(node: JsonElement, context: CompilerContext): JsonElement?
+    suspend fun process(node: JsonElement, context: CompilerContext): JsonElement?
 
 }

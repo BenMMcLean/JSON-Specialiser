@@ -14,7 +14,7 @@ class SelectorCommand(
 
     override val key: String = "selector"
 
-    override fun process(node: JsonElement, context: CompilerContext): JsonElement? {
+    override suspend fun process(node: JsonElement, context: CompilerContext): JsonElement? {
         if (!node.isJsonArray) throw CompilerException("Expecting the child of the selector to be an array")
 
         for (option in node.asJsonArray) {
