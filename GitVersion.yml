@@ -1,10 +1,10 @@
 mode: ContinuousDeployment
 continuous-delivery-fallback-tag: ''
-tag-prefix: '(prerelease/)?[vV]'
+tag-prefix: '(pre/)?[vV]'
 branches:
   develop:
     mode: ContinuousDeployment
-    increment: Minor
+    increment: Patch
     tag: ''
     track-merge-target: true
     tracks-release-branches: true
