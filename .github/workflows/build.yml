@@ -30,6 +30,8 @@ jobs:
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+    - name: Rename file 
+      run: mv jsons-*.jar jsons.jar
     - uses: actions/upload-artifact@master
       with:
         name: ${{github.run_number}}-jar
@@ -63,7 +65,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/*
+          asset_path: ./build/libs/jsons.jar
           asset_name: jsons.jar
           asset_content_type: application/java-archive
   publish-release:
@@ -106,6 +108,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/libs/*
+          asset_path: ./build/libs/jsons.jar
           asset_name: jsons.jar
           asset_content_type: application/java-archive
