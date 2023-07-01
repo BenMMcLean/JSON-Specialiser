@@ -19,6 +19,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.semVer }}
     steps:
     - uses: actions/checkout@v3
       with:
@@ -70,8 +72,8 @@ jobs:
         with:
           draft: false
           prerelease: true
-          tag_name: pre/v${{ needs.build.steps.gitversion.outputs.semVer }}
-          release_name: Prerelease ${{ needs.build.steps.gitversion.outputs.semVer }}
+          tag_name: pre/v${{ needs.build.outputs.version }}
+          release_name: Prerelease ${{ needs.build.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: upload artifact
@@ -106,8 +108,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          tag_name: v${{ needs.build.steps.gitversion.outputs.semVer }}
-          release_name: Release ${{ needs.build.steps.gitversion.outputs.semVer }}
+          tag_name: v${{ needs.build.outputs.version }}
+          release_name: Release ${{ needs.build.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: upload artifact
