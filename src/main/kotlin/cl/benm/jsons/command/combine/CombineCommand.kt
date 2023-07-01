@@ -20,14 +20,15 @@ class CombineCommand: Command {
         return when {
             aNode.all { it.isJsonArray } -> processArray(aNode)
             aNode.all { it.isJsonObject } -> processObject(aNode)
-            else -> throw CompilerException("Expecting all children of combine array to be either array or object")
+            else -> throw CompilerException("Expecting all children of combine array to be either array xor object")
         }
     }
 
     private fun processArray(node: JsonArray): JsonArray {
         return JsonArray().apply {
-            node.flatMap { it.asJsonArray }
-                .forEach { this.add(it) }
+            node.map {
+                it.asJsonArray
+            }.forEach { addAll(it) }
         }
     }
 
