@@ -40,9 +40,11 @@ class CommandCompilerStage(
     private suspend fun processObject(document: JsonObject, context: CompilerContext): JsonElement? {
         // Check for commands
         for (command in commands) {
-            val fullKey = "${COMMAND_CHAR}${command.key}"
+            if (!command.canRunInContext(context)) continue
 
+            val fullKey = "${COMMAND_CHAR}${command.key}"
             if (!document.has(fullKey)) continue
+
             return command.process(document.get(fullKey), context)?.let {
                 process(it, context)
             }

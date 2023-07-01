@@ -25,7 +25,7 @@ class SelectorCommand(
             if (option !is JsonObject) throw CompilerException("Expecting elements of the array to be an object")
             for (condition in conditions) {
                 if (option.has(condition.key)) {
-                    anyNotMatch = anyNotMatch || condition.evaluate(option.get(condition.key), context)
+                    anyNotMatch = anyNotMatch || !condition.evaluate(option.get(condition.key), context)
                 }
             }
 

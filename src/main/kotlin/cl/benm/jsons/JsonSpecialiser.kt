@@ -12,6 +12,7 @@ class JsonSpecialiser(
     suspend fun compile(document: JsonElement, context: CompilerContext): JsonElement? {
         var working = document
         for (stage in context.config.stages) {
+            if (!stage.canRunInContext(context)) continue
             working = stage.process(document, context) ?: return null
         }
         return working
