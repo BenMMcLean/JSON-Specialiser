@@ -3,7 +3,7 @@ continuous-delivery-fallback-tag: ''
 branches:
   develop:
     mode: ContinuousDeployment
-    increment: Patch
+    increment: Minor
     tag: ''
     track-merge-target: true
     tracks-release-branches: true
