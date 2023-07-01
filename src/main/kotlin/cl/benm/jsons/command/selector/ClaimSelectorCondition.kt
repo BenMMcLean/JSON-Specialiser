@@ -25,8 +25,8 @@ class ClaimSelectorCondition: SelectorCondition {
         if (context !is ClaimsCompilerContext) throw ContextException("ClaimSelectorCondition requires a ClaimsCompilerContext")
 
         for (e in element.asJsonArray) {
-            if (e.isJsonArray) throw CompilerException("Expecting a 2D array of claims")
-            if (!e.asJsonArray.all { it.isJsonPrimitive }) throw CompilerException("Expecting claims to be a string")
+            if (!e.isJsonArray) throw CompilerException("Expecting a 2D array of claims")
+            if (!e.asJsonArray.all { it.isJsonPrimitive && it.asJsonPrimitive.isString }) throw CompilerException("Expecting claims to be a string")
             if (context.claims.containsAll(e.asJsonArray.map { it.asString })) return true
         }
 
