@@ -1,5 +1,6 @@
 mode: ContinuousDeployment
 continuous-delivery-fallback-tag: ''
+tag-prefix: '(prerelease/)?[vV]'
 branches:
   develop:
     mode: ContinuousDeployment
