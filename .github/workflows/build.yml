@@ -35,7 +35,7 @@ jobs:
     - uses: actions/upload-artifact@master
       with:
         name: ${{github.run_number}}-jar
-        path: ./build/libs/jsons-*
+        path: ./build/libs/jsons.jar
   publish-pre:
     needs: build
     if: ${{ github.ref == 'refs/heads/develop' }}
