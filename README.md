@@ -1,5 +1,6 @@
 # JSON Specialiser
 [![Unit Test](https://github.com/BenMMcLean/JSON-Specialiser/actions/workflows/unit.yml/badge.svg)](https://github.com/BenMMcLean/JSON-Specialiser/actions/workflows/unit.yml)
+[![Build](https://github.com/BenMMcLean/JSON-Specialiser/actions/workflows/build.yml/badge.svg)](https://github.com/BenMMcLean/JSON-Specialiser/actions/workflows/build.yml)
 
 JSON Specialiser (JSON-S) is a tool for taking in any structured
 or unstructured JSON document and generating a client specialised
