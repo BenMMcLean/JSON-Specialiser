@@ -5,6 +5,7 @@ branches:
   develop:
     mode: ContinuousDeployment
     increment: Patch
+    tag: ''
     track-merge-target: true
     tracks-release-branches: true
     regex: ^develop
@@ -12,6 +13,7 @@ branches:
     prevent-increment-of-merged-branch-version: false
   main:
     regex: ^main
+    tag: ''
     mode: ContinuousDeployment
     increment: Minor
     is-release-branch: true
