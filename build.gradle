@@ -1,5 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'jacoco'
 }
 
 group = 'cl.benm'
@@ -24,4 +25,15 @@ test {
 
 kotlin {
     jvmToolchain(11)
+}
+
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                'cl/benm/jsons/exception/**',
+                'cl/benm/jsons/config/**'
+            ])
+        }))
+    }
 }
