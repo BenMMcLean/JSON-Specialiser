@@ -40,5 +40,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 75
         min-coverage-changed-files: 60
+        update-comment: true
+        title: Coverage
     - name: Report passing status
       run: ./gradlew jacocoTestCoverageVerification
