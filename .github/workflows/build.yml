@@ -31,7 +31,7 @@ jobs:
       with:
         arguments: build
     - name: Rename file 
-      run: mv jsons-*.jar jsons.jar
+      run: mv ./build/libs/jsons-*.jar ./build/libs/jsons.jar
     - uses: actions/upload-artifact@master
       with:
         name: ${{github.run_number}}-jar
