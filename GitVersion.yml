@@ -1,4 +1,5 @@
 mode: ContinuousDeployment
+continuous-delivery-fallback-tag: ''
 branches:
   develop:
     mode: ContinuousDeployment
@@ -6,11 +7,9 @@ branches:
     tag: ''
     track-merge-target: true
     tracks-release-branches: true
-    regex: ^develop
     is-release-branch: false
     prevent-increment-of-merged-branch-version: false
   main:
-    regex: ^main
     tag: ''
     mode: ContinuousDeployment
     increment: Minor
