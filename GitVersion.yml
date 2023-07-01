@@ -1,0 +1,22 @@
+next-version: 0.1.0
+mode: ContinuousDeployment
+continuous-delivery-fallback-tag: ''
+branches:
+  develop:
+    mode: ContinuousDeployment
+    tag: ''
+    increment: Minor
+    track-merge-target: true
+    tracks-release-branches: true
+    regex: ^develop
+    is-release-branch: false
+    prevent-increment-of-merged-branch-version: false
+  main:
+    regex: main?[/]
+    mode: ContinuousDeployment
+    increment: Patch # not working, when merging a bugfix from main
+    tag: 'beta'
+    is-release-branch: true
+    prevent-increment-of-merged-branch-version: true
+ignore:
+  sha: []
