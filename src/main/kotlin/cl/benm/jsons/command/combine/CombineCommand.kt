@@ -7,6 +7,9 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
+/**
+ * Flattens two arrays or objects
+ */
 class CombineCommand: Command {
 
     override val key: String = "combine"

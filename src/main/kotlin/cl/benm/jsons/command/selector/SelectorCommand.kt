@@ -6,6 +6,9 @@ import cl.benm.jsons.exception.CompilerException
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
+/**
+ * Processes a list of options and selects the first one that matches the given conditions.
+ */
 class SelectorCommand(
     private val conditions: List<SelectorCondition> = listOf(
         ClaimSelectorCondition()

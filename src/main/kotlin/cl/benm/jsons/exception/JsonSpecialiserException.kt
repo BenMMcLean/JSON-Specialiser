@@ -1,6 +1,6 @@
 package cl.benm.jsons.exception
 
-class CompilerException: JsonSpecialiserException {
+open class JsonSpecialiserException: Exception {
 
     constructor() : super()
     constructor(message: String?) : super(message)
@@ -12,5 +12,4 @@ class CompilerException: JsonSpecialiserException {
         enableSuppression,
         writableStackTrace
     )
-
 }

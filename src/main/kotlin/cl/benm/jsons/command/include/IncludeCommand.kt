@@ -6,6 +6,9 @@ import cl.benm.jsons.exception.CompilerException
 import cl.benm.jsons.exception.ContextException
 import com.google.gson.JsonElement
 
+/**
+ * Includes and inserts in-place another document
+ */
 class IncludeCommand: Command {
 
     override val key: String = "include"

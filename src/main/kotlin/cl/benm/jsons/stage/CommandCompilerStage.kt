@@ -1,13 +1,20 @@
 package cl.benm.jsons.stage
 
 import cl.benm.jsons.command.Command
+import cl.benm.jsons.command.combine.CombineCommand
+import cl.benm.jsons.command.include.IncludeCommand
+import cl.benm.jsons.command.selector.SelectorCommand
 import cl.benm.jsons.context.CompilerContext
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 class CommandCompilerStage(
-    private val commands: List<Command>
+    private val commands: List<Command> = listOf(
+        CombineCommand(),
+        IncludeCommand(),
+        SelectorCommand()
+    )
 ): CompilerStage {
 
     companion object {

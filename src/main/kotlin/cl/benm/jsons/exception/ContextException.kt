@@ -1,6 +1,6 @@
 package cl.benm.jsons.exception
 
-class ContextException: Exception {
+class ContextException: JsonSpecialiserException {
 
     constructor() : super()
     constructor(message: String?) : super(message)
