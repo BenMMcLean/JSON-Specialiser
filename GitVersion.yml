@@ -1,0 +1,20 @@
+mode: ContinuousDeployment
+continuous-delivery-fallback-tag: ''
+tag-prefix: '(pre/)?[vV]'
+branches:
+  develop:
+    mode: ContinuousDeployment
+    increment: Patch
+    tag: ''
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+    prevent-increment-of-merged-branch-version: false
+  main:
+    tag: ''
+    mode: ContinuousDeployment
+    increment: Minor
+    is-release-branch: true
+    prevent-increment-of-merged-branch-version: true
+ignore:
+  sha: []

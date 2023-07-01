@@ -1,0 +1,123 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Build
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+  
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.gitversion.outputs.semVer }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.6
+      with:
+        versionSpec: '5.x'
+    - name: Use GitVersion
+      id: gitversion # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v0.9.6
+      with:
+        useConfigFile: true
+        configFilePath: ./GitVersion.yml
+    - name: Display SemVer
+      run: |
+        echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: -Pversion=${{ steps.gitversion.outputs.semVer }} build
+    - name: Rename file 
+      run: mv ./build/libs/jsons-*.jar ./build/libs/jsons.jar
+    - uses: actions/upload-artifact@master
+      with:
+        name: ${{github.run_number}}-jar
+        path: ./build/libs/jsons.jar
+  publish-pre:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{github.run_number}}-jar
+          path: ./build/libs/
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: true
+          tag_name: pre/v${{ needs.build.outputs.version }}
+          release_name: Prerelease ${{ needs.build.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/libs/jsons.jar
+          asset_name: jsons.jar
+          asset_content_type: application/java-archive
+  publish-release:
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - uses: actions/download-artifact@master
+        with:
+          name: ${{github.run_number}}-jar
+          path: ./build/libs/
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.6
+        with:
+          versionSpec: '5.x'
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          tag_name: v${{ needs.build.outputs.version }}
+          release_name: Release ${{ needs.build.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: upload artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/libs/jsons.jar
+          asset_name: jsons.jar
+          asset_content_type: application/java-archive
